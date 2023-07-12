@@ -3,4 +3,6 @@ export type IPaginationOptions = {
   limit?: number;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
+  minPrice?: number;
+  maxPrice?: number;
 };

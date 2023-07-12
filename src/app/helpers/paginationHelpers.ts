@@ -5,6 +5,8 @@ type IOptions = {
   limit?: number;
   sortBy?: string;
   sortOrder?: SortOrder;
+  minPrice?: number;
+  maxPrice?: number;
 };
 type IOptionsResult = {
   page: number;
@@ -12,6 +14,8 @@ type IOptionsResult = {
   skip: number;
   sortBy: string;
   sortOrder: SortOrder;
+  minPrice?: number;
+  maxPrice?: number;
 };
 const calculatePagination = (options: IOptions): IOptionsResult => {
   const page = Number(options.page || 1);
@@ -20,13 +24,16 @@ const calculatePagination = (options: IOptions): IOptionsResult => {
 
   const sortBy = options.sortBy || 'createdAt';
   const sortOrder = options.sortOrder || 'desc';
-
+  const minPrice = options.minPrice;
+  const maxPrice = options.maxPrice;
   return {
     page,
     limit,
     skip,
     sortBy,
     sortOrder,
+    minPrice,
+    maxPrice,
   };
 };
 export const paginationHelpers = {

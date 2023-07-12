@@ -14,7 +14,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Semester created Successfully',
+    message: 'User created Successfully',
     data: result,
   });
 });

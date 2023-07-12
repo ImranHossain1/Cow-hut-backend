@@ -2,7 +2,7 @@ import { SortOrder } from 'mongoose';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { paginationHelpers } from '../../helpers/paginationHelpers';
-import { userRole, userSearchableFields } from './user.constant';
+import { userSearchableFields } from './user.constant';
 import { IUser, IUserFilters } from './user.interface';
 import { User } from './user.model';
 import httpStatus from 'http-status';
@@ -82,14 +82,10 @@ const updateUser = async (
   if (!isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User Not Found');
   }
-  const { role, name, ...UserData } = payload;
+  const { name, ...UserData } = payload;
   const updatedUserData: Partial<IUser> = { ...UserData };
   // Update role if it exists in payload and is a valid value from the enum
-  if (role && userRole.includes(role)) {
-    updatedUserData.role = role;
-  } else {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Role');
-  }
+
   //dynamically handling
   if (name && Object.keys(name).length > 0) {
     Object.keys(name).forEach(key => {
