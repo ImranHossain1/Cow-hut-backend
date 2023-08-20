@@ -20,7 +20,7 @@ const UserSchema = new Schema<IUser, UserModel>(
     password: {
       type: String,
       required: true,
-      select: false,
+      select: 0,
     },
     name: {
       type: {
@@ -73,7 +73,7 @@ UserSchema.pre('save', async function (next) {
   const user = this;
   user.password = await bcrypt.hash(
     user.password,
-    Number(config.bycrypt_salt_rounds)
+    Number(config.bcrypt_salt_rounds)
   );
 
   next();

@@ -8,7 +8,8 @@ import { IUser, IUserFilters } from './user.interface';
 import { User } from './user.model';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
-
+import config from '../../../config';
+import bcrypt from 'bcrypt';
 const createUser = async (payload: IUser): Promise<IUser> => {
   //console.log(payload);
   if (!payload.income) {
@@ -94,7 +95,14 @@ const updateUser = async (
       (updatedUserData as any)[nameKey] = name[key as keyof typeof name];
     });
   }
-
+  // Update the password only if it's present in the payload and has changed
+  if (UserData.password) {
+    UserData.password = await bcrypt.hash(
+      UserData.password,
+      Number(config.bcrypt_salt_rounds)
+    );
+    updatedUserData.password = UserData.password; // Update the hashed password
+  }
   const result = await User.findOneAndUpdate({ _id: id }, updatedUserData, {
     new: true,
   });

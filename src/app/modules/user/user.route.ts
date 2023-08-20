@@ -9,14 +9,21 @@ const router = express.Router();
 
 router.post(
   '/signup',
-  //validateRequest(UserValidation.createUserZodSchema),
+  validateRequest(UserValidation.createUserZodSchema),
   auth(ENUM_USER_ROLE.ADMIN),
   UserController.createUser
 );
 router.get(
-  '/:id',
-  //auth(ENUM_USER_ROLE.ADMIN),
-  UserController.getSingleUser
+  '/my-profile',
+  auth(ENUM_USER_ROLE.SELLER, ENUM_USER_ROLE.BUYER),
+  UserController.getMyProfile
+);
+router.get('/:id', auth(ENUM_USER_ROLE.ADMIN), UserController.getSingleUser);
+
+router.patch(
+  '/my-profile',
+  auth(ENUM_USER_ROLE.SELLER, ENUM_USER_ROLE.BUYER),
+  UserController.updateMyProfile
 );
 router.patch(
   '/:id',
@@ -25,6 +32,7 @@ router.patch(
   UserController.updateUser
 );
 router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), UserController.deleteUser);
+
 router.get('/', auth(ENUM_USER_ROLE.ADMIN), UserController.getAllUsers);
 
 export const UserRoutes = router;

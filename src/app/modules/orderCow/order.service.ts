@@ -33,12 +33,24 @@ const createOrder = async (cowId: string, buyerId: string) => {
       );
     }
 
-    cow.label = 'sold out';
-    await cow.save({ session });
+    //cow.label = 'sold out';
+    await Cow.findOneAndUpdate(
+      { _id: cowId },
+      { label: 'sold out' },
+      {
+        session,
+      }
+    );
 
     buyer.budget -= cow.price;
-    await buyer.save({ session });
-
+    //await buyer.save({ session });
+    await User.findOneAndUpdate(
+      { _id: buyerId },
+      { budget: buyer.budget - cow.price },
+      {
+        session,
+      }
+    );
     const seller = await User.findById(cow.seller).session(session);
     if (!seller) {
       throw new ApiError(
@@ -47,8 +59,14 @@ const createOrder = async (cowId: string, buyerId: string) => {
       );
     }
 
-    seller.income += cow.price;
-    await seller.save({ session });
+    // const updatedPrice = {seller.income + cow.price};
+    await User.findOneAndUpdate(
+      { _id: cow.seller },
+      { income: seller.income + cow.price },
+      {
+        session,
+      }
+    );
 
     const order = await Order.create([{ buyer: buyerId, cow: cowId }], {
       session,

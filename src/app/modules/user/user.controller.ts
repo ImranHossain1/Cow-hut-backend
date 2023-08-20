@@ -7,6 +7,7 @@ import { IUser } from './user.interface';
 import { userFilterableFields } from './user.constant';
 import { paginationFields } from '../../constants/pagination';
 import { UserService } from './user.service';
+import { User } from './user.model';
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const { ...userData } = req.body;
@@ -45,7 +46,40 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const user = await User.findOne({
+    phoneNumber: req.user?.userPhoneNumber,
+  });
+  const id: string | undefined = user?._id?.toString();
+  if (id) {
+    const result = await UserService.getSingleUser(id);
+    // Rest of your code
+    sendResponse<IUser>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User retrieved successfully!',
+      data: result,
+    });
+  }
+});
 
+const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const user = await User.findOne({
+    phoneNumber: req.user?.userPhoneNumber,
+  });
+  const id: string | undefined = user?._id?.toString();
+  const updatedData = req.body;
+  if (id) {
+    const result = await UserService.updateUser(id, updatedData);
+
+    sendResponse<IUser>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User updated successfully !',
+      data: result,
+    });
+  }
+});
 const updateUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
@@ -76,4 +110,6 @@ export const UserController = {
   getSingleUser,
   updateUser,
   deleteUser,
+  getMyProfile,
+  updateMyProfile,
 };
