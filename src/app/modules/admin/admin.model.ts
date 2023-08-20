@@ -64,7 +64,7 @@ AdminSchema.pre('save', async function (next) {
   const admin = this;
   admin.password = await bcrypt.hash(
     admin.password,
-    Number(config.bycrypt_salt_rounds)
+    Number(config.bcrypt_salt_rounds)
   );
 
   next();
