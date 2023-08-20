@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-/* eslint-disable no-unused-vars */
 import { Schema, model } from 'mongoose';
-import { IUser, UserModel } from './user.interface';
-import { userRole } from './user.constant';
+import { IAdmin, AdminModel } from './admin.interface';
+import { adminRole } from './admin.constant';
 import config from '../../../config';
 import bcrypt from 'bcrypt';
-const UserSchema = new Schema<IUser, UserModel>(
+const AdminSchema = new Schema<IAdmin, AdminModel>(
   {
     phoneNumber: {
       type: String,
@@ -15,12 +14,12 @@ const UserSchema = new Schema<IUser, UserModel>(
     role: {
       type: String,
       required: true,
-      enum: userRole,
+      enum: adminRole,
     },
     password: {
       type: String,
       required: true,
-      select: false,
+      select: 0,
     },
     name: {
       type: {
@@ -39,40 +38,32 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: String,
       required: true,
     },
-    budget: {
-      type: Number,
-      required: true,
-    },
-    income: {
-      type: Number,
-      required: true,
-    },
   },
   {
     timestamps: true,
   }
 );
 
-UserSchema.statics.isUserExist = async function (
+AdminSchema.statics.isAdminExist = async function (
   phoneNumber: string
-): Promise<Pick<IUser, 'phoneNumber' | 'password' | 'role'> | null> {
-  return await User.findOne(
+): Promise<Pick<IAdmin, 'phoneNumber' | 'password' | 'role'> | null> {
+  return await Admin.findOne(
     { phoneNumber },
     { phoneNumber: 1, password: 1, role: 1 }
   );
 };
-UserSchema.statics.isPasswordMatch = async function (
+AdminSchema.statics.isPasswordMatch = async function (
   givenPassword: string,
   savedPassword: string
 ): Promise<boolean> {
   return await bcrypt.compare(givenPassword, savedPassword);
 };
 
-// User.create() / User.save()
-UserSchema.pre('save', async function (next) {
-  const user = this;
-  user.password = await bcrypt.hash(
-    user.password,
+// Admin.create() / Admin.save()
+AdminSchema.pre('save', async function (next) {
+  const admin = this;
+  admin.password = await bcrypt.hash(
+    admin.password,
     Number(config.bycrypt_salt_rounds)
   );
 
@@ -80,10 +71,10 @@ UserSchema.pre('save', async function (next) {
 });
 
 //exclude password field
-UserSchema.methods.toJSON = function () {
+AdminSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.password;
   return obj;
 };
 
-export const User = model<IUser, UserModel>('User', UserSchema);
+export const Admin = model<IAdmin, AdminModel>('Admin', AdminSchema);
