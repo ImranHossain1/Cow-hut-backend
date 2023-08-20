@@ -1,38 +1,52 @@
-### Live Link: https://cow-hut-backend-assignment-peach.vercel.app/
+### Live Link: https://cow-hut-assignment-indol.vercel.app
 
 ### Application Routes:
 
-#### User
+## Main part
 
-- api/v1/users/signup (POST)
-- api/v1/users/ (GET)
-- api/v1/users/?role=buyer (GET)
-- api/v1/users/64ade52a0c9905d2096dbf5f (Single GET) Include an id that is saved in your database
-- api/v1/users/64ade52a0c9905d2096dbf5f (PATCH)
-- api/v1/users/64ade52a0c9905d2096dbf5f (DELETE) Include an id that is saved in your database
+### Auth (User)
+
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/auth/login (POST)
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/auth/refresh-token (POST)
+
+### Auth (Admin)
+
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/admins/create-admin (POST)
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/admins/login (POST)
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/admins/refresh-token (POST)
+
+### User
+
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/users (GET) //Only Admin can get the list of users
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/users/64e249bd72bb0c8f648e80a0 (Single GET) //Only Admin can get the list of users
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/users/64e249bd72bb0c8f648e80a0 (PATCH) //Only Admin can update the user
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/users/64e249bd72bb0c8f648e80a0 (DELETE) Include an id that is saved in your database
 
 #### Cows
 
-- api/v1/cows/create-cow (POST)
-- api/v1/cows (GET)
-- api/v1/cows/?maxPrice=50000 (GET)
-- api/v1/cows/?minPrice=50000 (GET)
-- api/v1/cows/?name=chulbull (GET)
-- api/v1/cows/?location=Chattogram(GET)
-- api/v1/cows/64add013ba11bee2d761008c (Single GET)
-- api/v1/cows/64add013ba11bee2d761008c (PATCH)
-- api/v1/cows/64add013ba11bee2d761008c (DELETE)
-
-### Pagination and Filtering routes of Cows
-
-- api/v1/cows?page=1&limit=10
-- api/v1/cows?sortBy=price&sortOrder=asc
-- api/v1/cows?minPrice=20000&maxPrice=70000
-- api/v1/cows?location=Chattogram
-- api/v1/cows?searchTerm=Cha
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/cows/create-cow (POST) //Only seller can create
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/cows (GET) //Admin, seller , buyer can get
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/cows/64e24a6572bb0c8f648e80b0 (Single GET) //Admin, seller , buyer can get
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/cows/64e24a6572bb0c8f648e80b0 (PATCH) // Only the owner of this cow can update
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/cows/64e24a6572bb0c8f648e80b0 (DELETE) // Only the owner of this cow can Delete
 
 #### Orders
 
-- /api/v1/orders/create-order (POST)
-- /api/v1/orders/ (GET)
-- /api/v1/orders/64adf8210cc24193621a126d (GET)
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/orders/create-order (POST) // Only buyer can order
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/orders (GET) // Only admin can get
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/orders/64e218acba250ad417004bbf (GET) //only the seller and the buyer of this cow can get this.
+
+## Bonus Part
+
+#### Admin
+
+-Route: https://cow-hut-assignment-indol.vercel.app/api/v1/admins/create-admin (POST)
+
+#### My Profile
+
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/users/my-profile (GET)
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/users/my-profile (PATCH)
+
+#### Order:
+
+- Route: https://cow-hut-assignment-indol.vercel.app/api/v1/orders/6177a5b87d32123f08d2f5d4 (GET)
