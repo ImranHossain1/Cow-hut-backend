@@ -7,6 +7,13 @@
 ### Auth (User)
 
 - Route: https://cow-hut-assignment-indol.vercel.app/api/v1/auth/login (POST)
+  for login, use this:
+  ```json
+  {
+    "phoneNumber": "0154520451212",
+    "password": "12345678"
+  }
+  ```
 - Route: https://cow-hut-assignment-indol.vercel.app/api/v1/auth/refresh-token (POST)
 
 ### Auth (Admin)
